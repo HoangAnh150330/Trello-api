@@ -1,5 +1,6 @@
 import express from 'express'
-import { CONNECT_DB, GET_DB } from '~/config/mongodb'
+import exitHook from 'async-exit-hook'
+import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
 
 
 const START_SERVER = () => {
@@ -15,20 +16,28 @@ const START_SERVER = () => {
 
   app.listen(port, hostname, () => {
     // eslint-disable-next-line no-console
-    console.log(`3.Hello Hoang Anh, Backend server is running at host:${hostname} and <Port:1>port</Port:1>`)
+    console.log(`3.Hello Hoang Anh, Backend server is running at host:${hostname} and Post:${port}`)
+  })
+  //Thực hiện các tác vụ cleanUp trước khi dừng Server
+  exitHook(() => {
+    console.log('4. Đang ngắt kết nối tới MongoDB Cloud Atlas...')
+    CLOSE_DB().then(() => {
+      console.log('5. Đã ngắt kết nối tới MongoDB Cloud Atlas')
+      process.exit()
+    })
   })
 }
 //Chỉ khi kết nối tới Database thành công thì mới có Start Server Backend lên
 //Immediately-invoked / Anonymous Async Function (IIFE)
 (async () => {
-  try{
+  try {
     console.log('1.Connecting to Mongodb....')
     await CONNECT_DB()
     console.log('2.Connected to MongoDB')
     //Khởi động Backend khi connected database
     START_SERVER()
   }
-  catch(error) {
+  catch (error) {
     console.error(error)
     process.exit(0)
   }

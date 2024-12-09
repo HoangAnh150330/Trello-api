@@ -3,7 +3,7 @@ const MONGODB_URI ='mongodb://localhost:27017/'
 
 const DATABASE_NAME ='trello-hoanganh-mern-stack'
 
-import { MongoClient, ServerApiVersion } from 'mongodb'
+import { MongoClient } from 'mongodb'
 
 //Khởi tạo một đối tượng trelloDatabseInstance ban đầu là null vì chưa connect
 let trelloDatabaseInstance = null
@@ -33,4 +33,9 @@ export const CONNECT_DB = async () => {
 export const GET_DB = () => {
   if (!trelloDatabaseInstance) throw new Error('Must Connect to Database first!')
   return trelloDatabaseInstance
+}
+
+//Dóng kết nổi Database
+export const CLOSE_DB = async () =>{
+  await mongoClientInstance.close()
 }
