@@ -1,8 +1,7 @@
 import express from 'express'
 import exitHook from 'async-exit-hook'
-import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
-
-
+import { CONNECT_DB, CLOSE_DB } from '~/config/mongodb'
+import { env } from '~/config/environment'
 const START_SERVER = () => {
   const app = express()
 
@@ -10,13 +9,13 @@ const START_SERVER = () => {
   const port = 8017
 
   app.get('/', async (req, res) => {
-    console.log(await GET_DB().listCollections().toArray())
+    console.log(process.env)
     res.end('<h1>Hello World!</h1><hr>')
   })
 
-  app.listen(port, hostname, () => {
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`3.Hello Hoang Anh, Backend server is running at host:${hostname} and Post:${port}`)
+    console.log(`3.Hello ${env.AUTHOR}, Backend server is running at host:${env.APP_HOST} and Post:${env.APP_PORT}`)
   })
   //Thực hiện các tác vụ cleanUp trước khi dừng Server
   exitHook(() => {
