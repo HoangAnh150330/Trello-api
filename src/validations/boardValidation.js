@@ -17,7 +17,7 @@ const createNew = async(req, res, next ) => {
   try {
 
     // set abortEarly : false để trường hợp có nhiều lỗi validation thì trả về tất cả lỗ<i></i>
-    await correctCondition.validateAsync(req.body, { abortEarly: false})
+    await correctCondition.validateAsync(req.body, { abortEarly: false })
     // Validate dữ liệu xong thì cho request đi tiếp sang Controller
     next()
 
