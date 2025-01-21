@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
-
-const createNew = async (req, res, next)=>{
+import { boardService } from '~/services/boardService'
+const createNew = async (req, res, next ) => {
 
   try {
-    console.log('req.body:', req.body)
+    // console.log('req.body:', req.body)
     // console.log('req.query:', req.query)
     // console.log('req.params:', req.params)
     // console.log('req.files:', req.files)
@@ -12,10 +12,11 @@ const createNew = async (req, res, next)=>{
 
 
     //Điều hướng dữ liệu sang tầng Service
+    const createdBoard = await boardService.createNew(req.body)
 
     // throw new ApiError(StatusCodes.BAD_GATEWAY, 'hoanganh test error')
     // Có kết quả trả về phía client
-    res.status(StatusCodes.CREATED).json({ message: 'POST from Controller : API create use board' })
+    res.status(StatusCodes.CREATED).json(createdBoard)
   } catch (error) {
     next(error)
   }
