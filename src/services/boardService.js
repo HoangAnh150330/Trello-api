@@ -34,6 +34,7 @@ const getDetails = async(boardId) => {
   try {
 
     const board = await boardModel.getDetails(boardId)
+    console.log(board)
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found !')
     }
