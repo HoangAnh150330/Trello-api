@@ -2,6 +2,7 @@ import { slugify } from '~/utils/formatters'
 import { boardModel } from '~/models/boardModel'
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
+import { cloneDeep } from 'lodash'
 const createNew = async(reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
@@ -36,6 +37,20 @@ const getDetails = async(boardId) => {
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found !')
     }
+    //B1 : Deep Clone board ra một cái mới để xử lý , không ảnh hưởng tới board ban đầu , tùy mục đích về sau mà có cần Clone deep hay không
+    const resBoard = cloneDeep(board)
+
+    //B2: đưa card về đúng column của nó
+    resBoard.columns.forEach(column => {
+      // Cách dùng equal này là vởi vì chúng ta hiểu ObjectId trong MongoDB có sup method equals
+      column.cards =resBoard.cards.filter(card => card.columnId.equals(column._id))
+
+      //Cách dùng khác đơn giản là convert ObjectId về string bằng hàm toString
+      // column.cards =resBoard.cards.filter(card => card.columnId.toString() === column._id.toString())
+    })
+
+    //B3 : xóa card khỏi board ban đầu
+    delete resBoard.cards
 
     return board
   } catch (error) {
