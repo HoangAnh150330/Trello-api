@@ -69,17 +69,26 @@ const getDetails = async (id) => {
         as: 'cards'
       } }
     ]).toArray()
-    console.log(result)
     return result[0] || null
   } catch (error) { throw new Error(error) }
 }
 
+//Nhiệm vụ của function này là push giá trị columnIds vào cuối mảng columnOrderIds
+const pushColumnOrderIds = async (column) => {
+  try {
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOneAndUpdate(
+      { _id :new ObjectId(column.boardId) },
+      { $push :{ columnOrderIds: new ObjectId(column._id) } },
+      { returnDocument: 'after' }
+    )
+    return result.value
+  } catch (error) { throw new Error(error) }
+}
 export const boardModel ={
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
   findOneById,
-  getDetails
+  getDetails,
+  pushColumnOrderIds
 }
-// boardId : 6791979d46e868f6b4af88ab
-// columnId : 67919e0c7814ed8113e76061
