@@ -34,7 +34,7 @@ const getDetails = async(boardId) => {
   try {
 
     const board = await boardModel.getDetails(boardId)
-    console.log(board)
+    // console.log(board)
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found !')
     }
@@ -45,15 +45,15 @@ const getDetails = async(boardId) => {
     resBoard.columns.forEach(column => {
       // Cách dùng equal này là vởi vì chúng ta hiểu ObjectId trong MongoDB có sup method equals
       column.cards =resBoard.cards.filter(card => card.columnId.equals(column._id))
-
+      console.log(column.cards)
       //Cách dùng khác đơn giản là convert ObjectId về string bằng hàm toString
       // column.cards =resBoard.cards.filter(card => card.columnId.toString() === column._id.toString())
     })
 
     //B3 : xóa card khỏi board ban đầu
-    delete resBoard.cards
+    // delete resBoard.cards
 
-    return board
+    return resBoard
   } catch (error) {
     throw error
   }
