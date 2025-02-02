@@ -45,7 +45,7 @@ const getDetails = async(boardId) => {
     resBoard.columns.forEach(column => {
       // Cách dùng equal này là vởi vì chúng ta hiểu ObjectId trong MongoDB có sup method equals
       column.cards =resBoard.cards.filter(card => card.columnId.equals(column._id))
-      console.log(column.cards)
+      // console.log(column.cards)
       //Cách dùng khác đơn giản là convert ObjectId về string bằng hàm toString
       // column.cards =resBoard.cards.filter(card => card.columnId.toString() === column._id.toString())
     })
@@ -58,7 +58,7 @@ const getDetails = async(boardId) => {
     throw error
   }
 }
-const update = async (boardId,reqBody) => {
+const update = async (boardId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const updateData = {
