@@ -20,10 +20,20 @@ const START_SERVER = () => {
   //Middleware xử lý lỗi tập trung
   app.use(errorHandlingMiddleware)
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    // eslint-disable-next-line no-console
-    console.log(`3.Hello ${env.AUTHOR}, Backend server is running at host:${env.APP_HOST} and Post:${env.APP_PORT}`)
-  })
+  if (env.BUILD_MODE === 'production') {
+    //Môi trường production (cụ thể hiện tại đang support render.com)
+    app.listen(process.env.PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`3.Production: Hi ${env.AUTHOR}, Backend server is running at host:${env.APP_HOST} and Post:${process.env.PORT}`)
+    })
+  } else {
+    // Môi trường Local dev
+    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+      // eslint-disable-next-line no-console
+      console.log(`3.Local DEV : Hi  ${env.AUTHOR}, Backend server is running at host:${env.LOCAL_DEV_APP_HOST} and Post:${env.LOCAL_DEV_APP_PORT}`)
+    })
+  }
+
   //Thực hiện các tác vụ cleanUp trước khi dừng Server
   exitHook(() => {
     console.log('4. Đang ngắt kết nối tới MongoDB Cloud Atlas...')
