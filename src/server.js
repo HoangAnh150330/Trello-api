@@ -24,13 +24,13 @@ const START_SERVER = () => {
     //Môi trường production (cụ thể hiện tại đang support render.com)
     app.listen(process.env.PORT, () => {
       // eslint-disable-next-line no-console
-      console.log(`3.Production: Hi ${env.AUTHOR}, Backend server is running at host:${env.APP_HOST} and Post:${process.env.PORT}`)
+      console.log(`3.Production: Hi ${env.AUTHOR}, Backend server is running successfully at Port:${process.env.PORT}`)
     })
   } else {
     // Môi trường Local dev
     app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
       // eslint-disable-next-line no-console
-      console.log(`3.Local DEV : Hi  ${env.AUTHOR}, Backend server is running at host:${env.LOCAL_DEV_APP_HOST} and Post:${env.LOCAL_DEV_APP_PORT}`)
+      console.log(`3.Local DEV : Hi  ${env.AUTHOR}, Backend server is running at host:${env.LOCAL_DEV_APP_HOST} and Port:${env.LOCAL_DEV_APP_PORT}`)
     })
   }
 
